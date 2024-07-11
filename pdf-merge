@@ -1,0 +1,27 @@
+import PyPDF2
+
+def merge_pdfs(pdf_list, output_filename):
+    # Create a PDF writer object
+    pdf_writer = PyPDF2.PdfFileWriter()
+    
+    # Iterate through the list of PDF filenames
+    for pdf in pdf_list:
+        # Create a PDF reader object for each input PDF
+        pdf_reader = PyPDF2.PdfFileReader(pdf)
+        
+        # Add each page of the current PDF to the writer object
+        for page_num in range(pdf_reader.numPages):
+            page = pdf_reader.getPage(page_num)
+            pdf_writer.addPage(page)
+    
+    # Write the collected pages to the output PDF file
+    with open(output_filename, 'wb') as output_pdf:
+        pdf_writer.write(output_pdf)
+
+# Example usage
+pdf_files = ['pdf1.pdf', 'pdf2.pdf', 'pdf3.pdf']
+output_file = 'merged_output.pdf'
+merge_pdfs(pdf_files, output_file)
+
+print(f"PDF files {pdf_files} merged into {output_file}")
+
